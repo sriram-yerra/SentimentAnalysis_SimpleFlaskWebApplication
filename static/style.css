@@ -1,0 +1,25 @@
+/* Custom CSS */
+body {
+    background-color: cyan; /* Change the background color to cyan */
+}
+.container-lg {
+    max-width: 800px;
+    margin: auto;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    background-color: #ffffff;
+    margin-top: 50px;
+}
+.form-control {
+    margin-bottom: 20px;
+}
+.btn-primary {
+    width: 100%;
+}
+.output {
+    text-align: center;
+    margin-top: 30px;
+    font-size: 24px;
+    font-weight: bold;
+}

@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:width="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sentiment Analysis</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles/style.css') }}">
+    <style>
+        /* Custom CSS */
+        body {
+    background-color: 	#DCDCDC; /* Replace with your desired background color */
+    background-image: url('file:///C:/Users/HI/Desktop/Semantic%20Analysis/mayo_sent_analysis_fastapi_transformers-0.jpg');
+    background-size: cover;
+    background-position: center;
+    font-family: Arial, sans-serif;
+    color: #333;
+    margin: 0;
+    padding: 0;
+}
+        .container-lg {
+            max-width: 800px;
+            margin: auto;
+            padding: 20px;
+            border-radius: 20px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 1); /* Increased shadow */
+            background-color: #fff; /* White background */
+            margin-top: 20px;
+            margin-bottom: 50px; /* Added margin at the bottom */
+        }
+
+        .form-control {
+            margin-bottom: 20px;
+            border-radius: 10px;
+            border: 2px solid #ccc; /* Light gray border */
+            padding: 15px; /* Increased padding */
+            font-size: 18px; /* Increased font size */
+        }
+
+        .btn-primary {
+            width: 100%;
+            border-radius: 10px;
+            padding: 15px;
+            font-size: 25px; /* Increased font size */
+            background-color: #007bff; /* Blue button */
+            color: #fff;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .btn-primary:hover {
+            background-color: #0056b3; /* Darker blue on hover */
+        }
+
+        .output {
+            text-align: center;
+            margin-top: 30px;
+            font-size: 24px;
+            font-weight: bold;
+            color: #007bff;
+        }
+
+        /* Additional styles */
+        .topic-container {
+            margin-top: 50px;
+        }
+
+        .topic {
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+    </style>
+</head>
+<body>
+
+<div class="container-lg custom-bg" >
+    <h1 class="text-center mb-4" >SENTIMENT ANALYSIS</h1>
+    <form method="POST" >
+        <input type="text" name="inp" class="form-control" placeholder="Enter the text which you want to analyse the sentiment of..." style="background-color: ; padding: 20px;">
+        <button type="submit" class="btn btn-primary ">Analyze the Sentiment</button>
+    </form>
+    {% if message %}
+    <div class="output" style="color: grey;">
+        <p>{{ message }}</p>
+    </div>
+    {% endif %}
+</div>
+
+<style>
+    .custom-bg {
+        background-color: #DCDCDC;
+    }
+    .btn-success {
+        background-color: #28a745; /* Green color for button */
+        border-color: #28a745; /* Border color */
+    }
+</style>
+
+
+
+
+<div class="container-lg topic-container" style="background-color: lightgray; padding: 20px;">
+    <div class="row">
+        <!-- MyDetails Section -->
+        <div class="col-md-6 mydetails-bg" style="margin-bottom: 20px;"> <!-- Added margin-bottom -->
+            <div class="topic">MyDetails</div>
+            <div><strong style="font-size: 20px;" style="font-family: Arial, sans-serif;">Registration Number: 21BCE3340</strong></div>
+            <div><strong style="font-size: 20px;" style="font-family: Arial, sans-serif;">Name: SRIRAM YERRA</strong></div>
+        </div>
+        <!-- Project Details Section -->
+        <div class="col-md-6 projectdetails-bg" style="margin-bottom: 20px;"> <!-- Added margin-bottom -->
+            <div class="topic">Project Details</div>
+            <div><strong style="font-size: 20px;" style="font-family: Arial, sans-serif;">Faculty: Mukku Nisanth Kartheek</strong></div>
+            <div><strong style="font-size: 20px;" style="font-family: Arial, sans-serif;">Requirement: DigitalAssignment-1</strong></div>
+            <div><strong style="font-size: 20px;" style="font-family: Arial, sans-serif;">Submission Date: 15th March</strong></div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .mydetails-bg, .projectdetails-bg {
+        background-color: white; /* Set background color of each section */
+        padding: 15px;
+        border-radius: 10px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Add shadow for a better look */
+    }
+
+    .mydetails-bg {
+        border: 10px solid grey; /* Border color for MyDetails section */
+    }
+
+    .projectdetails-bg {
+        border: 10px solid grey; /* Border color for Project Details section */
+    }
+
+    .btn-primary {
+        background-color: grey; /* Change button color */
+        border-color: #FF5733; /* Change button border color */
+    }
+
+    .btn-primary:hover {
+        background-color: blue; /* Darker shade on hover */
+        border-color: #FF4500; /* Change hover border color */
+    }
+</style>
+
+
+<style>
+    .mydetails-bg {
+        background-color: #C0C0C0; /* Example background color for MyDetails section */
+        padding: 20px;
+        border-radius: 20px;
+    }
+
+    .projectdetails-bg {
+        background-color: #C0C0C0; /* Example background color for Project Details section */
+        padding: 20px;
+        border-radius: 20px;
+    }
+}
+</style>
+
+
+<style>
+    .topic-container {
+    background-color: #C0C0C0;
+    padding: 20px;
+    width: 75%;
+    margin: 0 auto;
+    align: center;
+    border-radius: 30px;
+    text-align: justify;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 1); /* Adding shadow effect */
+</style>
+<br>
+<br>
+<div class="topic-container" style="background-color: #C0C0C0; padding: 20px; width: 75%; margin: 0 auto; align: center; border-radius: 25px; text-align: justify;">
+    <div class="topic">Topics to be known...!</div>
+    <ul>
+
+            <li>
+    <strong style="font-size: 23px;">Role of NLP in Sentiment Analysis</strong>
+    <p>
+        <h3>In-depth Exploration of NLP's Role in Sentiment Analysis</h3>
+
+        <p>Sentiment analysis, the process of extracting and classifying opinions, emotions, and attitudes from text, relies heavily on Natural Language Processing (NLP) techniques. Here's a deeper dive into NLP's crucial functions in sentiment analysis:</p>
+
+        <strong>1. Text Preprocessing:</strong>
+        <ul>
+            <li><strong>Tokenization:</strong> NLP breaks down text into individual words or phrases (tokens) using techniques like sentence segmentation and word tokenization. This makes the text easier to analyze for sentiment.</li>
+            <li><strong>Normalization:</strong> NLP techniques like stemming (reducing words to their root form) and lemmatization (converting words to their dictionary form) can handle variations in word forms (e.g., "happy," "happiest," "happiness") for consistent sentiment analysis.</li>
+            <li><strong>Part-of-Speech (POS) Tagging:</strong> Identifying the grammatical function of words (nouns, verbs, adjectives, etc.) helps understand the context and emotional weight of words. For example, "sad movie" conveys a different sentiment than "sad news."</li>
+            <li><strong>Stop Word Removal:</strong> NLP can remove commonly used words with little emotional significance (e.g., "the," "a," "is") to focus on sentiment-bearing words.</li>
+        </ul>
+
+        <strong>2. Feature Engineering:</strong>
+        <ul>
+            <li><strong>N-grams:</strong> NLP can create sequences of n words (bigrams, trigrams) to capture sentiment expressed through phrases like "feeling great" or "extremely disappointed."</li>
+            <li><strong>Sentiment Lexicons:</strong> Lists of words with pre-assigned sentiment scores (positive, negative, neutral) are used to assign sentiment values to text based on the presence and frequency of these words.</li>
+        </ul>
+
+        <strong>3. Machine Learning Models:</strong>
+        <ul>
+            <li><strong>Supervised Learning:</strong> NLP helps train sentiment analysis models by providing labeled datasets. These datasets consist of text samples categorized as positive, negative, or neutral. The model learns to identify sentiment patterns and apply them to unseen text.</li>
+            <li><strong>Unsupervised Learning:</strong> NLP techniques like topic modeling can help identify underlying themes and topics within text, indirectly aiding sentiment analysis by understanding the context of expressed emotions.</li>
+        </ul>
+
+        <strong>4. Deep Learning Techniques:</strong>
+        <ul>
+            <li><strong>Recurrent Neural Networks (RNNs) and Long Short-Term Memory (LSTMs):</strong> These advanced NLP models can capture long-term dependencies in text, crucial for understanding sentiment expressed over longer sequences.</li>
+            <li><strong>Convolutional Neural Networks (CNNs):</strong> CNNs can learn sentiment patterns from text data without explicit feature engineering.</li>
+        </ul>
+
+        <strong>Beyond Basic Sentiment Classification:</strong>
+        <ul>
+            <li><strong>Aspect-Based Sentiment Analysis:</strong> NLP helps identify specific aspects (e.g., product features, customer service) mentioned in text and determine the sentiment towards each aspect.</li>
+            <li><strong>Sarcasm and Irony Detection:</strong> Advanced NLP techniques can detect subtle cues like sarcasm or irony that might not be obvious in basic sentiment analysis.</li>
+            <li><strong>Emotion Detection:</strong> NLP can delve deeper, classifying emotions such as joy, anger, or fear, providing richer insights into user sentiment.</li>
+        </ul>
+            <br>
+        <strong style="font-size: 20px;">Conclusion:</strong>
+        <p>NLP offers a powerful set of tools for sentiment analysis. From basic text processing to advanced deep learning models, NLP empowers machines to understand the nuances of human language, enabling them to accurately analyze sentiment and extract valuable insights from textual data. This has applications in various fields, including social media monitoring, customer reviews analysis, and market research.</p>
+    </p>
+</li>
+
+    <div>
+    <h4><strong>What is NLP?</strong></h4>
+    <p>
+        Natural Language Processing (NLP) is a branch of artificial intelligence (AI) that deals with the interaction between computers and human language. It focuses on enabling machines to understand, interpret, and generate human language in a meaningful way.
+    </p>
+    <h6><strong>Key NLP Tasks:</strong></h6>
+    <ul>
+        <li>Machine Translation: Automatically translating text from one language to another.</li>
+        <li>Text Summarization: Condensing a large piece of text into a shorter version while retaining key information.</li>
+        <li>Part-of-Speech Tagging: Assigning a grammatical category (e.g., noun, verb, adjective) to each word in a sentence.</li>
+        <li>Named Entity Recognition: Identifying and classifying named entities in text, such as people, organizations, locations, dates, etc.</li>
+        <li>Sentiment Analysis: Determining the emotional tone of a piece of text, whether positive, negative, or neutral.</li>
+        <li>Question Answering: Extracting answers to questions posed in natural language from a corpus of documents or knowledge base.</li>
+        <li>Chatbots: Creating conversational agents that can interact with users in a human-like way.</li>
+        <li>Text Generation: Automatically generating human-quality text, such as for creative writing, product descriptions, or code comments.</li>
+    </ul>
+        <br>
+    <h6><strong>Benefits of NLP:</strong></h6>
+    <ul>
+        <li>Improved Search Engines: NLP helps search engines understand the intent behind user queries and return more relevant results.</li>
+        <li>Enhanced User Experience: Chatbots powered by NLP can provide better customer service and support.</li>
+        <li>Automated Document Processing: NLP can automate tasks like summarizing documents, extracting key information, and classifying emails.</li>
+        <li>Content Creation: NLP can be used to generate different creative text formats like poems, scripts, or marketing materials.</li>
+        <li>Accessibility and Inclusion: NLP can translate content for a wider audience and develop assistive technologies for people with disabilities.</li>
+    </ul>
+        <br>
+    <h6><strong>How Does NLP Work?</strong></h6>
+    <p>
+        NLP relies on various techniques such as machine learning, statistical methods, linguistics, and deep learning to understand and process human language.
+    </p>
+
+    <h6><strong>Challenges in NLP:</strong></h6>
+    <ul>
+        <li>Ambiguity: Natural language is inherently ambiguous, with words having multiple meanings depending on context.</li>
+        <li>Sarcasm & Sentiment: Identifying sarcasm, irony, and nuances in emotional tone is difficult for machines.</li>
+        <li>Limited Data: Training NLP models requires massive amounts of high-quality data, which can be expensive and time-consuming to acquire.</li>
+        <li>Evolving Language: Language constantly evolves with new slang, abbreviations, and expressions, requiring NLP models to adapt.</li>
+    </ul>
+        <br>
+    <h6><strong>Future of NLP:</strong></h6>
+    <p>
+        NLP is a rapidly evolving field with numerous potential applications. As techniques improve and data becomes more abundant, NLP could revolutionize how humans interact with machines and unlock new possibilities in areas like education, healthcare, and content creation.
+    </p>
+
+    <h6><strong>Additional Points:</strong></h6>
+    <ul>
+        <li>NLP can be used to analyze social media data to understand public opinion on current events.</li>
+        <li>NLP can be used to detect fake news and misinformation online.</li>
+        <li>NLP plays a crucial role in developing personalized user experiences on websites and applications.</li>
+        <li>Ethical considerations are essential in NLP, as it can raise issues like bias and privacy.</li>
+    </ul>
+        <br>
+    <p>By understanding the capabilities, limitations, and future directions of NLP, you can appreciate its potential impact on various aspects of our lives.</p>
+</div>
+
+
+        <li>
+    <strong style="font-size: 23px;">Applications of NLP</strong>
+    <p>
+        NLP is one of the ways that people have humanized machines and reduced the need for labor. It has led to the automation of speech-related tasks and human interaction. Some applications of NLP include :
+        <ul style="list-style-type: disc; padding-left: 20px;">
+            <li>
+                <strong>Translation Tools:</strong> Tools such as Google Translate, Amazon Translate, etc. translate sentences from one language to another using NLP.
+            </li>
+            <li>
+                <strong>Chatbots:</strong> Chatbots can be found on most websites and are a way for companies to deal with common queries quickly.
+            </li>
+            <li>
+                <strong>Virtual Assistants:</strong> Virtual Assistants like Siri, Cortana, Google Home, Alexa, etc can not only talk to you but understand commands given to them.
+            </li>
+            <li>
+                <strong>Targeted Advertising:</strong> Have you ever talked about a product or service or just googled something and then started seeing ads for it? This is called targeted advertising, and it helps generate tons of revenue for sellers as they can reach niche audiences at the right time.
+            </li>
+            <li>
+                <strong>Autocorrect:</strong> Autocorrect will automatically correct any spelling mistakes you make, apart from this grammar checkers also come into the picture which helps you write flawlessly.
+            </li>
+        </ul>
+            <br>
+        <strong>Natural language processing is the driving force behind machine intelligence in many modern real-world applications. Here are a few examples:</strong>
+        <ul style="list-style-type: disc; padding-left: 20px;">
+            <li>Spam detection</li>
+            <li>Machine translation</li>
+            <li>Virtual agents and chatbots</li>
+            <li>Social media sentiment analysis</li>
+            <li>Text summarization</li>
+        </ul>
+    </p>
+</li>
+<li>
+    <strong style="font-size: 23px;">Key points about the role of NLP in Sentiment Analysis:</strong>
+    <ul style="list-style-type: square; margin-left: 20px;">
+        <li><strong>Extracting subjective qualities:</strong> Sentiment analysis aims to extract attitudes, emotions, sarcasm, confusion, and suspicion from text.</li>
+        <li><strong>Integration with NLP:</strong> Sentiment analysis is a critical component of NLP, leveraging its capabilities to understand and interpret language.</li>
+        <li><strong>Applications:</strong> It is widely used in various applications, including analyzing social media posts, responses, reviews, and more.</li>
+        <li><strong>Business impact:</strong> The insights derived from sentiment analysis are valuable for companies in product designs, advertising campaigns, and decision-making processes.</li>
+    </ul>
+</li>
+
+        <br>
+        <li>
+    <strong style="font-size: 23px;">How to Perform NLP?</strong>
+    <p>
+        The steps to perform preprocessing of data in NLP include:
+        <ul style="list-style-type: disc; padding-left: 20px;">
+            <li><strong>Segmentation:</strong> You first need to break the entire document down into its constituent sentences. You can do this by segmenting the article along with its punctuations like full stops and commas.</li>
+            <li><strong>Tokenizing:</strong> For the algorithm to understand these sentences, you need to get the words in a sentence and explain them individually to our algorithm. So, you break down your sentence into its constituent words and store them. This is called tokenizing, and each word is called a token.</li>
+            <li><strong>Removing Stop Words:</strong> You can make the learning process faster by getting rid of non-essential words, which add little meaning to our statement and are just there to make our statement sound more cohesive. Words such as was, in, is, and, the, are called stop words and can be removed.</li>
+            <li><strong>Stemming:</strong> It is the process of obtaining the Word Stem of a word. Word Stem gives new words upon adding affixes to them.</li>
+            <li><strong>Lemmatization:</strong> The process of obtaining the Root Stem of a word. Root Stem gives the new base form of a word that is present in the dictionary and from which the word is derived. You can also identify the base words for different words based on the tense, mood, gender, etc.</li>
+            <li><strong>Part of Speech Tagging:</strong> Now, you must explain the concept of nouns, verbs, articles, and other parts of speech to the machine by adding these tags to our words. This is called ‘part of’.</li>
+            <li><strong>Named Entity Tagging:</strong> Next, introduce your machine to pop culture references and everyday names by flagging names of movies, important personalities or locations, etc that may occur in the document. You do this by classifying the words into subcategories. This helps you find any keywords in a sentence. The subcategories are person, location, monetary value, quantity, organization, movie.</li>
+        </ul>
+   </p>
+</li>
+
+    </ul>
+
+
+</body>
+</html>
