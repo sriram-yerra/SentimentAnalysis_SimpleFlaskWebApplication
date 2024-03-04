@@ -1,2 +1,3 @@
 Flask
 Gunicorn
+nltk==3.6.5
